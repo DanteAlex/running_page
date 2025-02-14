@@ -228,10 +228,13 @@ jobs:
           python run_page/save_to_parqent.py
 
       - name: Push new runs
+        env:
+          GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
         if: env.SAVE_DATA_IN_GITHUB_CACHE != 'true'
         run: |
           git config --local user.email "austsxk@163.com"
           git config --local user.name "songxiaokui"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
           git add .
           git commit -m 'update new runs' || echo "nothing to commit"
           git push || echo "nothing to push"
